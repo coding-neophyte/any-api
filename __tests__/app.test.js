@@ -80,6 +80,17 @@ describe('backend routes', () => {
 
     expect(await Book.bookById(bookToUpdate.id)).toEqual(expectedBook);
   });
+  it('should delete a book', async () => {
+    const newBook = await Book.insert({
+      title: 'power of habit',
+      author: 'charles duhigg',
+      year_released: 2011,
+      category: 'psychology',
+    });
+    const res = await request(app).delete(`/api/v1/books/${newBook.id}`);
 
+    expect(res.body).toEqual(newBook);
+    expect(await Book.bookById(newBook.id)).toBeNull();
+  });
 
 });
