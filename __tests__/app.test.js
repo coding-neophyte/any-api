@@ -55,5 +55,31 @@ describe('backend routes', () => {
     expect(res.body).toEqual(singleBook);
   });
 
+  it('should update existing book', async () => {
+    const newBook = { title: 'power of habit',
+      author: 'charles duhigg',
+      year_released: 2011,
+      category: 'psychology',
+    };
+    const bookToUpdate = await Book.insert(newBook);
+
+    const res = await request(app).patch(`/api/v1/books/${bookToUpdate.id}`).send({ title: 'laws of nature',
+      author: 'robert greene',
+      year_released: 2019,
+      category: 'psychology', });
+
+    const expectedBook = {
+      id: expect.any(String),
+      title: 'laws of nature',
+      author: 'robert greene',
+      year_released: 2019,
+      category: 'psychology',
+    };
+
+    expect(res.body).toEqual(expectedBook);
+
+    expect(await Book.bookById(bookToUpdate.id)).toEqual(expectedBook);
+  });
+
 
 });
