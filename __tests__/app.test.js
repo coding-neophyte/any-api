@@ -32,5 +32,28 @@ describe('backend routes', () => {
     });
   });
 
+  it('should get all books', async () => {
+    const newBook = await Book.insert({
+      title: 'Thinking fast and slow',
+      author: 'Daniel Kahnenman',
+      year_released: 2011,
+      category: 'psychology'
+    });
+    const res = await request(app).get('/api/v1/books');
+    expect(res.body).toEqual([newBook]);
+  });
+
+  it('should get book by id', async () => {
+    const singleBook = await Book.insert({
+      title: 'color of law',
+      author: 'richard rothstein',
+      year_released: 2017,
+      category: 'sociology'
+    });
+    const res = await request(app).get(`/api/v1/books/${singleBook.id}`);
+
+    expect(res.body).toEqual(singleBook);
+  });
+
 
 });
