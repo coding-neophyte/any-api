@@ -7,7 +7,5 @@ CREATE TABLE books (
     title TEXT NOT NULL,
     author TEXT NOT NULL,
     year_released INT NOT NULL,
-    category TEXT NOT NULL,
-)
-
-
+    category TEXT NOT NULL
+);
